@@ -1,22 +1,27 @@
 package com.pet.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table("favorites")
+@Table(name = "favorites")
 public class Favorites {
 
     @Id
+    @Column(name = "favorites_id")
     private Integer id;
 
-    @Column("book_id")
+    @Column(name = "book_id")
     private Integer bookId;
 
-    @Column("book_title")
+    @Column(name = "book_title")
     private String bookTitle;
 
-    @Column("book_link")
+    @Column(name = "book_link")
     private String bookLink;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 }

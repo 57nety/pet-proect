@@ -1,36 +1,60 @@
 package com.pet.entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@Table("user")
+@Table(name = "user")
+@Entity
 public class User {
 
     @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "login")
     private String login;
 
-    private List<StorySearch> listStorySearch = new ArrayList<>();
-
-    private List<StoryDownload> listStoryDownload = new ArrayList<>();
-
-    private List<Favorites> listFavorites = new ArrayList<>();
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<StorySearch> listStorySearch = new HashSet<>();
 
     public void addStorySearch(StorySearch storySearch){
-        this.listStorySearch.add(storySearch);
+        listStorySearch.add(storySearch);
+        storySearch.setUser(this);
     }
+
+    public void removeStorySearch(StorySearch storySearch){
+        listStorySearch.remove(storySearch);
+        storySearch.setUser(null);
+    }
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<StoryDownload> listStoryDownload = new HashSet<>();
 
     public void addStoryDownload(StoryDownload storyDownload){
-        this.listStoryDownload.add(storyDownload);
+        listStoryDownload.add(storyDownload);
+        storyDownload.setUser(this);
     }
 
+    public void removeStoryDownload(StoryDownload storyDownload){
+        listStoryDownload.remove(storyDownload);
+        storyDownload.setUser(null);
+    }
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Favorites> listFavorites = new HashSet<>();
+
     public void addFavorites(Favorites favorites){
-        this.listFavorites.add(favorites);
+        listFavorites.add(favorites);
+        favorites.setUser(this);
+    }
+
+    public void removeFavorites(Favorites favorites){
+        listFavorites.remove(favorites);
+        favorites.setUser(null);
     }
 }

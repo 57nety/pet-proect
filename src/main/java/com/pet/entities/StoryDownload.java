@@ -1,24 +1,34 @@
 package com.pet.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.Date;
 
 @Data
-@Table("story_download")
+@Table(name = "story_download")
 public class StoryDownload {
 
     @Id
+    @Column(name = "story_download_id")
     private Integer id;
 
-    @Column("book_id")
+    @Column(name = "book_id")
     private Integer bookId;
 
-    @Column("book_link")
+    @Column(name = "book_link")
     private String bookLink;
 
+    @Column(name = "date")
     private Date date = new Date();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 }
