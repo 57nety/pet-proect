@@ -1,21 +1,20 @@
 package com.pet.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @Table(name = "story_download")
+@Entity
 public class StoryDownload {
 
     @Id
     @Column(name = "story_download_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "book_id")
@@ -31,4 +30,21 @@ public class StoryDownload {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
+
+    @Override
+    public boolean equals(Object o) {
+        if ( this == o ) {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() ) {
+            return false;
+        }
+        StoryDownload storyDownload = (StoryDownload) o;
+        return this.id == storyDownload.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( id );
+    }
 }

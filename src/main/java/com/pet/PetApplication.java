@@ -23,7 +23,7 @@ public class PetApplication {
 	public CommandLineRunner demo(UserService userService) {
 		return (args) -> {
 			User user = new User();
-			user.setLogin("login");
+			user.setLogin("PI91649");
 
 			Favorites favorites = new Favorites();
 			favorites.setBookId(130120);
