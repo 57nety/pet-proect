@@ -1,9 +1,31 @@
+server.port: 8080
+
+# ---- Postgres ----
 spring:
   datasource:
+    driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/diplom
     username: root
     password: root
-    driver-class-name: org.postgresql.Driver
   jpa:
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQL12Dialect
+    hibernate:
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: none
+    database: POSTGRESQL
+    properties.hibernate:
+      default_schema: account
+      format_sql: true
+      id.new_generator_mappings: true
+      jdbc.lob.non_contextual_creation: true
+
+  #View settings
+  mvc.view:
+    prefix: templates/
+    suffix: .html
+
+
+#JPA logging
+logging.level.org.hibernate:
+  SQL: DEBUG
+  type.descriptor.sql:
+    BasicBinder: TRACE
